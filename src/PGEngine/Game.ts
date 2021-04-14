@@ -94,20 +94,24 @@ export default class Game {
 	public GetLoadedTexture(name: string): PIXI.Texture | undefined {
 		const textureToReturn: PIXI.Texture | undefined = this.loader.resources[
 			name
-		].texture;
+		]
+			? this.loader.resources[name].texture
+			: undefined;
 		return textureToReturn;
+	}
+
+	public GetLoadedSpriteseet(name: string): PIXI.Spritesheet | undefined {
+		const spritesheetToReturn: PIXI.Spritesheet | undefined = this.loader
+			.resources[name]
+			? this.loader.resources[name].spritesheet
+			: undefined;
+
+		return spritesheetToReturn;
 	}
 
 	public GetLoadedData(name: string): any {
 		const dataToReturn: any = this.loader.resources[name].data;
 		return dataToReturn;
-	}
-
-	public GetLoadedSpriteseet(name: string): PIXI.Spritesheet | undefined {
-		const spritesheetToReturn: PIXI.Spritesheet | undefined = this.loader
-			.resources[name].spritesheet;
-
-		return spritesheetToReturn;
 	}
 	//#endregion
 }

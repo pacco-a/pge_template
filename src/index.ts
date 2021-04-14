@@ -14,7 +14,10 @@ export default class NewGame extends Game {
 			height: 640,
 			backgroundColor: 0x4287f5,
 			fps: 60,
-			toLoad: [{ name: "test", url: "testdata.json" }],
+			toLoad: [
+				{ name: "test", url: "testdata.json" },
+				{ name: "smiley", url: "smiley.png" },
+			],
 		});
 	}
 
@@ -25,6 +28,16 @@ export default class NewGame extends Game {
 		);
 		helloWorld.x = this.renderer.width / 2 - helloWorld.width / 2;
 		helloWorld.y = this.renderer.height / 2 - helloWorld.height / 2;
+
+		const smileyTexture = this.GetLoadedTexture("smiley");
+		if (smileyTexture) {
+			const smileySprite = new PIXI.Sprite(smileyTexture);
+			smileySprite.x = 0;
+			smileySprite.y = 0;
+			this.stage.addChild(smileySprite);
+		} else {
+			console.error("smiley texture not found");
+		}
 
 		this.stage.addChild(helloWorld);
 	}
