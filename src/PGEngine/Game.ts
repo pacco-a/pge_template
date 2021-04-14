@@ -7,6 +7,8 @@ export default class Game {
 	protected graphics: PIXI.Graphics;
 	// pixi ticker
 	protected ticker: PIXI.Ticker;
+	// loader
+	protected loader: PIXI.Loader;
 
 	constructor(config: IGameConfig) {
 		// create renderer
@@ -28,9 +30,19 @@ export default class Game {
 		this.stage = new PIXI.Container();
 		this.stage.addChild(this.graphics);
 
-		// execute create function
+		// load ressources THEN call create
 
-		this.create();
+		/* TODO
+			puis start a la fin de create */
+
+		this.loader = new PIXI.Loader();
+		for (const toload of config.toLoad) {
+			this.loader.add(toload.name, toload.url);
+		}
+
+		this.loader.load(() => {
+			this.create();
+		});
 
 		// ticker
 
@@ -43,21 +55,61 @@ export default class Game {
 		});
 	}
 
-	// fonction create qui s'execute une fois avant update
+	/**
+	 * Fonction qui doit s'executer avant la toute première frame
+	 * pour se faire, la fonction start doit être appelée à la fin
+	 * de celle ci.
+	 *
+	 * Cette fonction est appelée automatiquement quand les
+	 * assets sont loadés par le Loader.
+	 */
 	protected create(): void {}
 
+	/**
+	 * Fonction qui s'execute à chaque frame.
+	 * @param dt Le temps écoulés depuis la dernière frame en MS (ex. 0.0016)
+	 */
 	protected update(dt: number): void {
 		// render the stage
 		this.renderer.render(this.stage);
 	}
 
+	/**
+	 * Contient les dessins, il n'y a pas grand chose à mettre ici
+	 * (mise à part les dessin avec graphics) si on utilise le système de stage.
+	 */
 	protected draw() {
 		this.graphics.clear();
 	}
 
+	/**
+	 * Lance le jeu (démarre le ticker), dans l'idéal il faut
+	 * executer cette fonction à la fin de create().
+	 */
 	public start() {
 		this.ticker.start();
 	}
+
+	//#region resources getters
+	public GetLoadedTexture(name: string): PIXI.Texture | undefined {
+		const textureToReturn: PIXI.Texture | undefined = this.loader.resources[
+			name
+		].texture;
+		return textureToReturn;
+	}
+
+	public GetLoadedData(name: string): any {
+		const dataToReturn: any = this.loader.resources[name].data;
+		return dataToReturn;
+	}
+
+	public GetLoadedSpriteseet(name: string): PIXI.Spritesheet | undefined {
+		const spritesheetToReturn: PIXI.Spritesheet | undefined = this.loader
+			.resources[name].spritesheet;
+
+		return spritesheetToReturn;
+	}
+	//#endregion
 }
 
 interface IGameConfig {
@@ -66,4 +118,5 @@ interface IGameConfig {
 	backgroundColor: number;
 	fps: number;
 	view: HTMLCanvasElement;
+	toLoad: { name: string; url: string }[];
 }

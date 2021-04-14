@@ -14,6 +14,7 @@ export default class NewGame extends Game {
 			height: 640,
 			backgroundColor: 0x4287f5,
 			fps: 60,
+			toLoad: [{ name: "test", url: "testdata.json" }],
 		});
 	}
 
