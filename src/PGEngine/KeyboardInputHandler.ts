@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import { Vector2 } from "../utils/MathUtils";
 
 interface Key {
 	down: boolean;
@@ -6,11 +7,23 @@ interface Key {
 	framesDown: number;
 }
 
+interface Mouse {
+	globalPosition: Vector2;
+	rightClickDown: boolean;
+	leftClickDown: boolean;
+}
+
 export default class KeyboardInputHandler {
 	private rightKey: Key = { down: false, justDown: false, framesDown: 0 };
 	private leftKey: Key = { down: false, justDown: false, framesDown: 0 };
 	private upKey: Key = { down: false, justDown: false, framesDown: 0 };
 	private downKey: Key = { down: false, justDown: false, framesDown: 0 };
+
+	private mouse: Mouse = {
+		globalPosition: new Vector2(0, 0),
+		rightClickDown: false,
+		leftClickDown: false,
+	};
 
 	private keys: Key[] = [
 		this.rightKey,
@@ -32,13 +45,20 @@ export default class KeyboardInputHandler {
 			false
 		);
 
-		// EXEMPLE : mouse input
-		// pageDocument.addEventListener("mousedown", (e) => {
-		// 	console.log(e.x);
-		// });
+		pageDocument.addEventListener("mousedown", (e) => {
+			this.mouseDownHandler(e);
+		});
+
+		pageDocument.addEventListener("mouseup", (e) => {
+			this.mouseUpHandler(e);
+		});
+
+		pageDocument.addEventListener("mousemove", (e) => {
+			this.mouseMoveHandler(e);
+		});
 	}
 
-	keyDownHandler(event: KeyboardEvent) {
+	private keyDownHandler(event: KeyboardEvent) {
 		if (event.code == "ArrowRight") {
 			this.rightKey.down = true;
 		} else if (event.code == "ArrowLeft") {
@@ -52,7 +72,7 @@ export default class KeyboardInputHandler {
 		}
 	}
 
-	keyUpHandler(event: KeyboardEvent) {
+	private keyUpHandler(event: KeyboardEvent) {
 		if (event.code == "ArrowRight") {
 			this.rightKey.down = false;
 		} else if (event.code == "ArrowLeft") {
@@ -64,6 +84,35 @@ export default class KeyboardInputHandler {
 		} else if (event.code == "ArrowDown") {
 			this.downKey.down = false;
 		}
+	}
+
+	private mouseDownHandler(event: MouseEvent) {
+		switch (event.button) {
+			case 0:
+				this.mouse.rightClickDown = true;
+				break;
+			case 2:
+				this.mouse.leftClickDown = true;
+			default:
+				break;
+		}
+	}
+
+	private mouseUpHandler(event: MouseEvent) {
+		switch (event.button) {
+			case 0:
+				this.mouse.rightClickDown = false;
+				break;
+			case 2:
+				this.mouse.leftClickDown = false;
+			default:
+				break;
+		}
+	}
+
+	private mouseMoveHandler(event: MouseEvent) {
+		this.mouse.globalPosition.x = event.x;
+		this.mouse.globalPosition.y = event.y;
 	}
 
 	//#region public methods (key getters)

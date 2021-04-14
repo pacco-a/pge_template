@@ -3,7 +3,10 @@ const path = require("path");
 module.exports = {
 	devtool: "eval-source-map",
 	mode: "development",
-	entry: "./src/index.ts",
+	entry: {
+		game: "./src/index.ts",
+		toolspritesheet: "./src/tools/spritesheet/spritesheet.ts",
+	},
 	module: {
 		rules: [
 			{
@@ -23,7 +26,7 @@ module.exports = {
 	},
 	output: {
 		publicPath: "public",
-		filename: "bundle.js",
+		filename: "[name].js",
 		path: path.resolve(__dirname, "public"),
 	},
 };
