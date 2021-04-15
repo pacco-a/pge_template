@@ -7,6 +7,9 @@ export default class NewGame extends Game {
 		document
 	);
 
+	/* TODO rightclickmouse et leftclickmouse sont inversés et aussi pas de fonction
+	public pour exposés les etats de mouse */
+
 	constructor() {
 		super({
 			view: document.getElementById("game-canvas") as HTMLCanvasElement,
@@ -45,6 +48,14 @@ export default class NewGame extends Game {
 	protected update(dt: number) {
 		super.update(dt);
 		NewGame.inputHandler.update(dt);
+
+		if (NewGame.inputHandler.GetMouseLeftButtonDown()) {
+			console.log("clique gauche appuyé");
+		}
+
+		if (NewGame.inputHandler.GetMouseLeftButtonJustDown()) {
+			console.log("clique gauche juste appuyé");
+		}
 	}
 
 	protected draw() {

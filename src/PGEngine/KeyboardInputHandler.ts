@@ -7,10 +7,16 @@ interface Key {
 	framesDown: number;
 }
 
+interface MouseButton {
+	down: boolean;
+	justDown: boolean;
+	framesDown: number;
+}
+
 interface Mouse {
 	globalPosition: Vector2;
-	rightClickDown: boolean;
-	leftClickDown: boolean;
+	rightButton: MouseButton;
+	leftButton: MouseButton;
 }
 
 export default class KeyboardInputHandler {
@@ -21,8 +27,16 @@ export default class KeyboardInputHandler {
 
 	private mouse: Mouse = {
 		globalPosition: new Vector2(0, 0),
-		rightClickDown: false,
-		leftClickDown: false,
+		rightButton: {
+			down: false,
+			justDown: false,
+			framesDown: 0,
+		},
+		leftButton: {
+			down: false,
+			justDown: false,
+			framesDown: 0,
+		},
 	};
 
 	private keys: Key[] = [
@@ -89,10 +103,11 @@ export default class KeyboardInputHandler {
 	private mouseDownHandler(event: MouseEvent) {
 		switch (event.button) {
 			case 0:
-				this.mouse.rightClickDown = true;
+				this.mouse.leftButton.down = true;
 				break;
 			case 2:
-				this.mouse.leftClickDown = true;
+				this.mouse.rightButton.down = true;
+				break;
 			default:
 				break;
 		}
@@ -101,10 +116,11 @@ export default class KeyboardInputHandler {
 	private mouseUpHandler(event: MouseEvent) {
 		switch (event.button) {
 			case 0:
-				this.mouse.rightClickDown = false;
+				this.mouse.leftButton.down = false;
 				break;
 			case 2:
-				this.mouse.leftClickDown = false;
+				this.mouse.leftButton.down = false;
+				break;
 			default:
 				break;
 		}
@@ -115,7 +131,7 @@ export default class KeyboardInputHandler {
 		this.mouse.globalPosition.y = event.y;
 	}
 
-	//#region public methods (key getters)
+	//#region public methods (key/buttons getters)
 
 	// right key
 	public GetRightKeyDown(): boolean {
@@ -153,6 +169,26 @@ export default class KeyboardInputHandler {
 		return this.downKey.justDown;
 	}
 
+	// right mouse button
+
+	public GetMouseRightButtonDown(): boolean {
+		return this.mouse.rightButton.down;
+	}
+
+	public GetMouseRightButtonJustDown(): boolean {
+		return this.mouse.rightButton.justDown;
+	}
+
+	// left mouse button
+
+	public GetMouseLeftButtonDown(): boolean {
+		return this.mouse.leftButton.down;
+	}
+
+	public GetMouseLeftButtonJustDown(): boolean {
+		return this.mouse.leftButton.justDown;
+	}
+
 	//#endregion
 
 	/**
@@ -162,6 +198,7 @@ export default class KeyboardInputHandler {
 	 */
 	public update(dt: number): void {
 		// sert à gérer le "just down"
+		// pour les keys
 		for (const key of this.keys) {
 			if (key.down === true) {
 				if (key.framesDown === 0) {
@@ -172,8 +209,35 @@ export default class KeyboardInputHandler {
 
 				key.framesDown++;
 			} else {
+				key.justDown = false;
 				key.framesDown = 0;
 			}
+		}
+		// pour les buttons de la mouse
+		if (this.mouse.rightButton.down === true) {
+			if (this.mouse.rightButton.framesDown === 0) {
+				this.mouse.rightButton.justDown = true;
+			} else {
+				this.mouse.rightButton.justDown = false;
+			}
+
+			this.mouse.rightButton.framesDown++;
+		} else {
+			this.mouse.rightButton.justDown = false;
+			this.mouse.rightButton.framesDown = 0;
+		}
+
+		if (this.mouse.leftButton.down === true) {
+			if (this.mouse.leftButton.framesDown === 0) {
+				this.mouse.leftButton.justDown = true;
+			} else {
+				this.mouse.leftButton.justDown = false;
+			}
+
+			this.mouse.leftButton.framesDown++;
+		} else {
+			this.mouse.leftButton.justDown = false;
+			this.mouse.leftButton.framesDown = 0;
 		}
 	}
 }
