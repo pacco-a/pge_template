@@ -5,7 +5,8 @@ export default class LDTKLevel {
 	public name: string;
 	private levelObj: any;
 	private tileMapLayers: CompositeTilemap[];
-	private intGrids: number[][][] = [];
+	// private intMaps: number[][][] = [];
+	private intMaps: any = {};
 
 	constructor(
 		levelObject: any,
@@ -19,6 +20,9 @@ export default class LDTKLevel {
 		this.tileMapLayers = this.MakeTileMapFromFormatSpritesheet(
 			projectSpritesheet
 		);
+
+		// make intMaps
+		console.log(this.MakeIntMapFromSpritesheet(projectSpritesheet));
 	}
 
 	/**
@@ -55,7 +59,24 @@ export default class LDTKLevel {
 					layer.addFrame(textureToAdd, tile.px[0], tile.px[1]);
 				}
 				tilemapLayers.push(layer);
-			} else if (layerInstance.__type === "IntGrid") {
+			}
+		}
+
+		return tilemapLayers;
+	}
+
+	private MakeIntMapFromSpritesheet(spritesheet: PIXI.Spritesheet) {
+		//const intMaps: number[][][] = [];
+		const intMaps: any = {};
+
+		for (
+			let index = this.levelObj.layerInstances.length;
+			index > 0;
+			index--
+		) {
+			const layerInstance = this.levelObj.layerInstances[index - 1];
+
+			if (layerInstance.__type === "IntGrid") {
 				const xMax = layerInstance.__cWid;
 				let xIndex = 0;
 				let yIndex = 0;
@@ -79,13 +100,11 @@ export default class LDTKLevel {
 					}
 				}
 
-				console.log(newList);
-
-				this.intGrids.push(newList);
+				intMaps[layerInstance.__identifier] = newList;
 			}
 		}
 
-		return tilemapLayers;
+		return intMaps;
 	}
 
 	public GetTileMapLayers(): CompositeTilemap[] {
