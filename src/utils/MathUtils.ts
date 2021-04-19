@@ -22,4 +22,18 @@ class Vector2 {
 	}
 }
 
-export { Vector2 };
+function findGridPosition(
+	absoluteXPoint: number,
+	absoluteYPoint: number,
+	mapSizeX: number,
+	mapSizeY: number,
+	numberTileX: number,
+	numberTileY: number
+): Vector2 {
+	const tileX = Math.floor((absoluteXPoint * numberTileX) / mapSizeX);
+	const tileY = Math.floor((absoluteYPoint * numberTileY) / mapSizeY);
+
+	return new Vector2(tileX, tileY);
+}
+
+export { Vector2, findGridPosition };

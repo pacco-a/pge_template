@@ -22,7 +22,7 @@ export default class LDTKLevel {
 		);
 
 		// make intMaps
-		console.log(this.MakeIntMapFromSpritesheet(projectSpritesheet));
+		this.intMaps = this.MakeIntMapFromSpritesheet(projectSpritesheet);
 	}
 
 	/**
@@ -30,7 +30,7 @@ export default class LDTKLevel {
 	 * adapté (qui peut être généré dans tools/spritesheet).
 	 * @param spritesheet Le PIXI.Spritesheet utilisé par le projet
 	 */
-	public MakeTileMapFromFormatSpritesheet(
+	private MakeTileMapFromFormatSpritesheet(
 		spritesheet: PIXI.Spritesheet
 	): CompositeTilemap[] {
 		const tilemapLayers: CompositeTilemap[] = [];
@@ -109,5 +109,9 @@ export default class LDTKLevel {
 
 	public GetTileMapLayers(): CompositeTilemap[] {
 		return this.tileMapLayers;
+	}
+
+	public GetIntMap(identifier: string): number[][] {
+		return this.intMaps[identifier];
 	}
 }

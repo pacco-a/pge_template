@@ -20,10 +20,14 @@ interface Mouse {
 }
 
 export default class KeyboardInputHandler {
-	private rightKey: Key = { down: false, justDown: false, framesDown: 0 };
-	private leftKey: Key = { down: false, justDown: false, framesDown: 0 };
-	private upKey: Key = { down: false, justDown: false, framesDown: 0 };
-	private downKey: Key = { down: false, justDown: false, framesDown: 0 };
+	// ARROW
+	public rightKey: Key = { down: false, justDown: false, framesDown: 0 };
+	public leftKey: Key = { down: false, justDown: false, framesDown: 0 };
+	public upKey: Key = { down: false, justDown: false, framesDown: 0 };
+	public downKey: Key = { down: false, justDown: false, framesDown: 0 };
+	// SPECIALS
+	public spaceKey: Key = { down: false, justDown: false, framesDown: 0 };
+	public enterKey: Key = { down: false, justDown: false, framesDown: 0 };
 
 	private mouse: Mouse = {
 		globalPosition: new Vector2(0, 0),
@@ -40,10 +44,14 @@ export default class KeyboardInputHandler {
 	};
 
 	private keys: Key[] = [
+		// arrows
 		this.rightKey,
 		this.leftKey,
 		this.upKey,
 		this.downKey,
+		// specials
+		this.spaceKey,
+		this.enterKey,
 	];
 
 	constructor(pageDocument: Document) {
@@ -73,6 +81,7 @@ export default class KeyboardInputHandler {
 	}
 
 	private keyDownHandler(event: KeyboardEvent) {
+		// arrows
 		if (event.code == "ArrowRight") {
 			this.rightKey.down = true;
 		} else if (event.code == "ArrowLeft") {
@@ -83,6 +92,15 @@ export default class KeyboardInputHandler {
 			this.upKey.down = true;
 		} else if (event.code == "ArrowDown") {
 			this.downKey.down = true;
+		}
+
+		// specials
+		if (event.code == "Space") {
+			this.spaceKey.down = true;
+		}
+
+		if (event.code === "Enter") {
+			this.enterKey.down = true;
 		}
 	}
 
@@ -97,6 +115,15 @@ export default class KeyboardInputHandler {
 			this.upKey.down = false;
 		} else if (event.code == "ArrowDown") {
 			this.downKey.down = false;
+		}
+
+		// specials
+		if (event.code == "Space") {
+			this.spaceKey.down = false;
+		}
+
+		if (event.code === "Enter") {
+			this.enterKey.down = false;
 		}
 	}
 
