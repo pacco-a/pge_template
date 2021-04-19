@@ -1,6 +1,6 @@
-import Game from "./PGEngine/Game";
 import * as PIXI from "pixi.js";
-import KeyboardInputHandler from "./PGEngine/KeyboardInputHandler";
+import Game from "./pge_engine/Game";
+import KeyboardInputHandler from "./pge_engine/KeyboardInputHandler";
 
 export default class NewGame extends Game {
 	public static inputHandler: KeyboardInputHandler = new KeyboardInputHandler(

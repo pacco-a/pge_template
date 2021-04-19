@@ -1,0 +1,6 @@
+[submodule "pge_engine"]
+	path = pge_engine
+	url = https://github.com/webPacco/pge_engine
+[submodule "src/pge_engine"]
+	path = src/pge_engine
+	url = https://github.com/webPacco/pge_engine

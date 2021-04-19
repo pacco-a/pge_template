@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
-import Game from "../../PGEngine/Game";
-import KeyboardInputHandler from "../../PGEngine/KeyboardInputHandler";
-import LDTKProject from "../../PGEngine/LDtk/LDTKProject";
+import Game from "../../pge_engine/Game";
+import KeyboardInputHandler from "../../pge_engine/KeyboardInputHandler";
+import LDTKProject from "../../pge_engine/LDtk/LDTKProject";
 
 export default class NewGame extends Game {
 	public static inputHandler: KeyboardInputHandler = new KeyboardInputHandler(
