@@ -7,7 +7,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "webpack serve",
 		"build": "webpack",
-		"en-dep": "npm install --save file:src/pge_engine"
+		"prepare": "git submodule add --force https://github.com/webPacco/pge_engine src/pge_engine && npm install --save file:src/pge_engine"
 	},
 	"keywords": [],
 	"author": "",
