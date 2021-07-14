@@ -44,7 +44,7 @@ export default class NewGame extends Game {
 
 		for (const tilemapLayer of testLevel.GetTileMapLayers()) {
 			tilemapLayer.scale.set(8, 8);
-			this.stage.addChild(tilemapLayer);
+			this.AddToStage(5, tilemapLayer);
 		}
 	}
 

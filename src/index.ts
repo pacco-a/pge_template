@@ -37,12 +37,12 @@ export default class NewGame extends Game {
 			const smileySprite = new PIXI.Sprite(smileyTexture);
 			smileySprite.x = 0;
 			smileySprite.y = 0;
-			this.stage.addChild(smileySprite);
+			this.AddToStage(5, smileySprite);
 		} else {
 			console.error("smiley texture not found");
 		}
 
-		this.stage.addChild(helloWorld);
+		this.AddToStage(10, helloWorld);
 	}
 
 	protected update(dt: number) {
