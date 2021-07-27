@@ -5,8 +5,6 @@ module.exports = {
 	mode: "development",
 	entry: {
 		game: "./src/index.ts",
-		toolspritesheet: "./src/pge_engine/tools/spritesheet/spritesheet.ts",
-		exampletilemap: "./src/examples/tilemap/indextilemap.ts",
 	},
 	module: {
 		rules: [
